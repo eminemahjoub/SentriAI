@@ -1,4 +1,29 @@
+<div align="center">
+
 # SentriAI – SIEM Platform
+
+_Cloud-ready security telemetry pipeline for real-time detection, enrichment, and response._
+
+[Quick Start](#quick-start) · [Architecture](#architecture-overview) · [Deployment](#deployment-options) · [Docs](docs/)
+
+</div>
+
+<p align="center">
+  <a href="https://github.com/eminemahjoub/SentriAI/actions/workflows/ci.yml">
+    <img src="https://github.com/eminemahjoub/SentriAI/actions/workflows/ci.yml/badge.svg" alt="CI Status" />
+  </a>
+  <a href="https://img.shields.io/badge/python-3.8%2B-blue.svg">
+    <img src="https://img.shields.io/badge/python-3.8%2B-blue.svg" alt="Python 3.8+" />
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/license-MIT-success.svg" alt="License: MIT" />
+  </a>
+  <a href="docs/ARCHITECTURE.md">
+    <img src="https://img.shields.io/badge/Docs-Architecture-informational.svg" alt="Architecture Docs" />
+  </a>
+</p>
+
+---
 
 SentriAI is a modular Security Information and Event Management (SIEM) platform focused on rapid ingestion, enrichment, correlation, and visualization of security telemetry. It enables security teams to detect threats earlier, surface enriched alerts, and automate response workflows.
 
