@@ -29,6 +29,24 @@ SentriAI is a modular Security Information and Event Management (SIEM) platform 
 
 ## Architecture Overview
 
+```mermaid
+graph LR
+    subgraph Sources
+        A1[Syslog] -->|TCP/UDP| C
+        A2[Windows Events] -->|EVTX| C
+        A3[Cloud Services] -->|APIs| C
+    end
+    C[Collectors] --> D[Parsers]
+    D --> E[Enrichment]
+    E --> F[Pipeline Services]
+    F --> G[Storage Layer]
+    G --> H[Correlation Engine]
+    H --> I[Alerting]
+    G --> J[Dashboards]
+    H --> J
+    J --> K[Security Analysts]
+```
+
 The platform follows a pipeline architecture:
 
 1. Collectors (`src/collectors/`) pull telemetry from various sources.
