@@ -1,0 +1,18 @@
+ingestion:
+  enabled: true
+  batch_size: 100
+  timeout: 30
+  sources:
+    - type: syslog
+      config:
+        host: "0.0.0.0"
+        port: 514
+    - type: windows_event
+      config:
+        event_log: "Application"
+        max_events: 1000
+    - type: cloud
+      config:
+        provider: "aws"
+        log_group: "/aws/lambda/my-function"
+        region: "us-west-2"

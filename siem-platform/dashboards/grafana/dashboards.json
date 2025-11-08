@@ -1,0 +1,85 @@
+{
+  "dashboard": {
+    "id": null,
+    "uid": "siem-dashboard",
+    "title": "SIEM Dashboard",
+    "tags": ["siem", "security", "monitoring"],
+    "timezone": "browser",
+    "schemaVersion": 26,
+    "version": 1,
+    "refresh": "5s",
+    "panels": [
+      {
+        "type": "graph",
+        "title": "Log Ingestion Rate",
+        "targets": [
+          {
+            "target": "log_ingestion_rate",
+            "refId": "A"
+          }
+        ],
+        "xaxis": {
+          "mode": "time"
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "label": "Logs per second",
+            "logBase": 1,
+            "min": "0"
+          },
+          {
+            "format": "short",
+            "label": "Logs per second",
+            "logBase": 1,
+            "min": "0"
+          }
+        ]
+      },
+      {
+        "type": "table",
+        "title": "Recent Alerts",
+        "targets": [
+          {
+            "target": "recent_alerts",
+            "refId": "B"
+          }
+        ],
+        "columns": [
+          {
+            "text": "Timestamp",
+            "value": "timestamp"
+          },
+          {
+            "text": "Alert Type",
+            "value": "alert_type"
+          },
+          {
+            "text": "Severity",
+            "value": "severity"
+          },
+          {
+            "text": "Source",
+            "value": "source"
+          }
+        ]
+      },
+      {
+        "type": "singlestat",
+        "title": "Total Events Processed",
+        "targets": [
+          {
+            "target": "total_events",
+            "refId": "C"
+          }
+        ],
+        "valueName": "current",
+        "format": "none"
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    }
+  }
+}

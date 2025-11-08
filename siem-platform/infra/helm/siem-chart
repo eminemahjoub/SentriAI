@@ -1,0 +1,56 @@
+# Siem Chart Helm
+
+apiVersion: v2
+name: siem-chart
+description: A Helm chart for deploying the SIEM platform
+type: application
+version: 0.1.0
+appVersion: "1.0"
+
+# Define the dependencies for the chart
+dependencies:
+  - name: elasticsearch
+    version: 7.10.0
+    repository: https://helm.elastic.co
+  - name: kibana
+    version: 7.10.0
+    repository: https://helm.elastic.co
+  - name: prometheus
+    version: 14.0.0
+    repository: https://prometheus-community.github.io/helm-charts
+
+# Define the values for the chart
+values:
+  elasticsearch:
+    replicaCount: 3
+    resources:
+      requests:
+        memory: "1Gi"
+        cpu: "500m"
+      limits:
+        memory: "2Gi"
+        cpu: "1"
+  kibana:
+    replicaCount: 1
+    elasticsearchHosts: "http://elasticsearch:9200"
+  prometheus:
+    service:
+      enabled: true
+      type: ClusterIP
+
+# Define the templates for the chart
+templates:
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+  - configmap.yaml
+
+# Define the hooks for the chart
+hooks:
+  - pre-install: pre-install-hook.sh
+  - post-install: post-install-hook.sh
+
+# Define the notes for the chart
+notes:
+  - "SIEM platform has been deployed."
+  - "Access Kibana at: http://<kibana-service-ip>:<kibana-service-port>"

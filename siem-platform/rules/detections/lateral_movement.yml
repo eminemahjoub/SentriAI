@@ -1,0 +1,30 @@
+rules:
+  id: lateral_movement
+  description: Detect lateral movement activities within the network.
+  detection:
+    selection:
+      EventID:
+        - 4624
+        - 4625
+      TargetUser:
+        - "Admin$"
+        - "Administrator"
+        - "Guest"
+      SourceIP:
+        - "192.168.1.0/24"
+    condition: selection
+  fields:
+    - EventID
+    - TargetUser
+    - SourceIP
+    - Timestamp
+  level: high
+  tags:
+    - lateral_movement
+    - suspicious_activity
+  false_positives:
+    - Legitimate administrative tasks
+    - Scheduled tasks running under admin accounts
+  references:
+    - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4624
+    - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625

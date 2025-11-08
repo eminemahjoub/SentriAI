@@ -1,0 +1,11 @@
+timestamp,source,log_level,message
+2023-10-01T12:00:00Z,syslog,INFO,"System started successfully."
+2023-10-01T12:05:00Z,syslog,WARNING,"Disk space is running low."
+2023-10-01T12:10:00Z,windows_event,ERROR,"Failed to connect to the database."
+2023-10-01T12:15:00Z,cloud_event,INFO,"User logged in from IP 192.168.1.1."
+2023-10-01T12:20:00Z,syslog,INFO,"Backup completed successfully."
+2023-10-01T12:25:00Z,windows_event,WARNING,"User account locked due to multiple failed login attempts."
+2023-10-01T12:30:00Z,cloud_event,ERROR,"Service outage detected in region us-west-1."
+2023-10-01T12:35:00Z,syslog,INFO,"Configuration file updated."
+2023-10-01T12:40:00Z,windows_event,INFO,"User logged out."
+2023-10-01T12:45:00Z,cloud_event,INFO,"New instance created in cloud."

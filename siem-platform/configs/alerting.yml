@@ -1,0 +1,40 @@
+alerting:
+  enabled: true
+  default_severity: medium
+  notification_channels:
+    - email
+    - slack
+    - webhook
+  alert_rules:
+    - name: Suspicious Login Attempt
+      description: Detects multiple failed login attempts from the same IP address.
+      severity: high
+      conditions:
+        - field: "event_type"
+          operator: "equals"
+          value: "failed_login"
+        - field: "source_ip"
+          operator: "count"
+          threshold: 5
+          timeframe: "10m"
+      actions:
+        - type: "notify"
+          channel: "email"
+          message: "Suspicious login attempts detected from {{source_ip}}."
+    - name: Lateral Movement Detection
+      description: Detects unusual access patterns indicative of lateral movement.
+      severity: critical
+      conditions:
+        - field: "event_type"
+          operator: "equals"
+          value: "access"
+        - field: "user"
+          operator: "in"
+          value: ["admin", "system"]
+        - field: "destination"
+          operator: "not_in"
+          value: ["trusted_hosts"]
+      actions:
+        - type: "notify"
+          channel: "slack"
+          message: "Potential lateral movement detected by user {{user}}."

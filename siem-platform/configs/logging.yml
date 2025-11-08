@@ -1,0 +1,59 @@
+logging:
+  version: 1
+  disable_existing_loggers: False
+  formatters:
+    simple:
+      format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    detailed:
+      format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s - %(filename)s:%(lineno)d'
+  handlers:
+    console:
+      class: logging.StreamHandler
+      level: DEBUG
+      formatter: simple
+    file:
+      class: logging.FileHandler
+      level: INFO
+      formatter: detailed
+      filename: 'siem_logs.log'
+  loggers:
+    collectors:
+      level: DEBUG
+      handlers: [console, file]
+      propagate: no
+    parsers:
+      level: DEBUG
+      handlers: [console, file]
+      propagate: no
+    enrichment:
+      level: INFO
+      handlers: [console, file]
+      propagate: no
+    storage:
+      level: WARNING
+      handlers: [console, file]
+      propagate: no
+    pipeline:
+      level: DEBUG
+      handlers: [console, file]
+      propagate: no
+    correlation:
+      level: INFO
+      handlers: [console, file]
+      propagate: no
+    alerting:
+      level: WARNING
+      handlers: [console, file]
+      propagate: no
+    api:
+      level: DEBUG
+      handlers: [console, file]
+      propagate: no
+    ml:
+      level: INFO
+      handlers: [console, file]
+      propagate: no
+    common:
+      level: DEBUG
+      handlers: [console, file]
+      propagate: no

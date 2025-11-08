@@ -1,0 +1,24 @@
+rules:
+  id: suspicious_login
+  description: Détecte les connexions suspectes basées sur des critères définis.
+  detection:
+    selection:
+      EventID: 4624
+      LogonType:
+        - 2
+        - 10
+      AccountName: "*"
+      SourceNetworkAddress: "!192.168.1.0/24"
+    condition: selection
+  fields:
+    - EventID
+    - AccountName
+    - SourceNetworkAddress
+    - TimeGenerated
+  false_positives:
+    - Connexions légitimes depuis des réseaux externes
+  level: high
+  tags:
+    - authentication
+    - suspicious
+    - login

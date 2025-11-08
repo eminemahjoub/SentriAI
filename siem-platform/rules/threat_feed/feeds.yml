@@ -1,0 +1,30 @@
+feeds:
+  - name: "Malware Domain List"
+    url: "https://malwaredomainlist.com/hostslist/hosts.txt"
+    type: "text"
+    description: "A list of domains associated with malware."
+    last_updated: "2023-10-01"
+
+  - name: "Phishing Database"
+    url: "https://phishingdatabase.com/api/v1/feeds"
+    type: "json"
+    description: "A feed of known phishing URLs."
+    last_updated: "2023-10-01"
+
+  - name: "Abuse.ch URLhaus"
+    url: "https://urlhaus.abuse.ch/downloads/csv/"
+    type: "csv"
+    description: "A feed of malicious URLs reported by users."
+    last_updated: "2023-10-01"
+
+  - name: "Spamhaus ZEN"
+    url: "https://www.spamhaus.org/drop/drop.txt"
+    type: "text"
+    description: "A list of known spam and malicious IP addresses."
+    last_updated: "2023-10-01"
+
+  - name: "AlienVault OTX"
+    url: "https://otx.alienvault.com/api/v1/indicators/export"
+    type: "json"
+    description: "Threat intelligence data from AlienVault's Open Threat Exchange."
+    last_updated: "2023-10-01"

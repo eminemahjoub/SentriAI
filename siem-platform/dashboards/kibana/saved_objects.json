@@ -1,0 +1,64 @@
+{
+  "version": "7.10.0",
+  "savedObjects": [
+    {
+      "type": "index-pattern",
+      "id": "logs-*",
+      "attributes": {
+        "title": "logs-*",
+        "timeFieldName": "@timestamp"
+      },
+      "references": [],
+      "migrationVersion": {
+        "index-pattern": "7.10.0"
+      },
+      "updated_at": "2023-10-01T00:00:00.000Z",
+      "created_at": "2023-10-01T00:00:00.000Z"
+    },
+    {
+      "type": "dashboard",
+      "id": "security-dashboard",
+      "attributes": {
+        "title": "Security Dashboard",
+        "description": "Dashboard for monitoring security events.",
+        "panelsJSON": "[]",
+        "optionsJSON": "{\"darkTheme\":false}",
+        "version": 1
+      },
+      "references": [
+        {
+          "type": "index-pattern",
+          "id": "logs-*",
+          "name": "index-pattern-log-*"
+        }
+      ],
+      "migrationVersion": {
+        "dashboard": "7.10.0"
+      },
+      "updated_at": "2023-10-01T00:00:00.000Z",
+      "created_at": "2023-10-01T00:00:00.000Z"
+    },
+    {
+      "type": "visualization",
+      "id": "security-events-visualization",
+      "attributes": {
+        "title": "Security Events",
+        "visState": "{\"title\":\"Security Events\",\"type\":\"histogram\",\"params\":{\"type\":\"histogram\",\"mode\":\"stacked\",\"grid\":{\"categoryLines\":true},\"seriesParams\":[{\"data\":{\"id\":\"1\",\"label\":\"Security Events\"},\"type\":\"histogram\",\"mode\":\"stacked\"}],\"addLegend\":true,\"legendPosition\":\"right\"},\"aggs\":[{\"id\":\"1\",\"type\":\"count\",\"schema\":\"metric\"}]}",
+        "uiStateJSON": "{}",
+        "version": 1
+      },
+      "references": [
+        {
+          "type": "index-pattern",
+          "id": "logs-*",
+          "name": "index-pattern-log-*"
+        }
+      ],
+      "migrationVersion": {
+        "visualization": "7.10.0"
+      },
+      "updated_at": "2023-10-01T00:00:00.000Z",
+      "created_at": "2023-10-01T00:00:00.000Z"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'syslog'
+    static_configs:
+      - targets: ['localhost:514']
+  
+  - job_name: 'windows_events'
+    static_configs:
+      - targets: ['localhost:1234']
+
+  - job_name: 'cloud_events'
+    static_configs:
+      - targets: ['cloud-service-endpoint:port']
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - 'localhost:9093'
+
+rule_files:
+  - "alert_rules/*.yml"

@@ -1,0 +1,37 @@
+server:
+  http:
+    address: ":3100"
+  grpc:
+    listen_address: ":9095"
+  
+positions:
+  filename: /var/loki/positions.yaml
+
+storage:
+  engine: "filesystem"
+  filesystem:
+    directory: /var/loki/chunks
+
+schema_config:
+  configs:
+    - from: 2020-10-15
+      store: boltdb-shipper
+      object_store: filesystem
+      schema: v11
+      index:
+        prefix: index_
+        period: 24h
+
+limits_config:
+  max_entries_limit: 5000
+  max_chunk_size: 1048576
+
+compactor:
+  retention_enabled: true
+  retention:
+    enabled: true
+    period: 24h
+
+table_manager:
+  retention_deletes_enabled: true
+  retention_period: 168h

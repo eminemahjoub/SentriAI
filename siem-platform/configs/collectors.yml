@@ -1,0 +1,25 @@
+collectors:
+  syslog:
+    enabled: true
+    sources:
+      - type: file
+        path: /var/log/syslog
+      - type: network
+        host: 0.0.0.0
+        port: 514
+  windows_event:
+    enabled: true
+    sources:
+      - type: event_log
+        log_name: Security
+      - type: event_log
+        log_name: Application
+  cloud_events:
+    enabled: true
+    sources:
+      - type: aws
+        service: cloudtrail
+      - type: azure
+        service: activity_log
+      - type: gcp
+        service: audit_logs
