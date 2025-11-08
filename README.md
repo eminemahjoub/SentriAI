@@ -1,52 +1,174 @@
-# SIEM Platform
+# SentriAI – SIEM Platform
 
-## Introduction
-Le projet SIEM (Security Information and Event Management) est une solution complète pour la collecte, l'analyse et la gestion des événements de sécurité. Ce système est conçu pour être évolutif et intelligent, permettant une détection proactive des menaces et une réponse rapide aux incidents.
+SentriAI is a modular Security Information and Event Management (SIEM) platform focused on rapid ingestion, enrichment, correlation, and visualization of security telemetry. It enables security teams to detect threats earlier, surface enriched alerts, and automate response workflows.
 
-## Architecture
-L'architecture du système est divisée en plusieurs composants clés :
+## Table of Contents
 
-- **Collecteurs** : Responsables de la collecte des logs à partir de différentes sources (Syslog, événements Windows, services cloud).
-- **Parsers** : Transforme les logs collectés en un format JSON unifié.
-- **Enrichment** : Enrichit les logs avec des informations supplémentaires, telles que des données géographiques et des renseignements sur les menaces.
-- **Stockage** : Gère le stockage des logs dans des bases de données comme Elasticsearch et des solutions de stockage à froid.
-- **Pipeline** : Orchestration de l'ingestion, du parsing et de l'indexation des logs.
-- **Corrélation** : Applique des règles de détection et utilise des modèles d'apprentissage automatique pour identifier les anomalies.
-- **Alerting** : Envoie des alertes basées sur des règles définies.
-- **API** : Fournit des interfaces REST et GraphQL pour interagir avec le système.
-- **Interface Utilisateur** : Un tableau de bord web pour visualiser les données et les alertes.
-- **Machine Learning** : Fonctionnalités pour la détection d'anomalies et l'entraînement de modèles.
+1. Features
+2. Architecture Overview
+3. Prerequisites
+4. Quick Start
+5. Configuration
+6. Deployment Options
+7. Project Structure
+8. Testing
+9. Observability
+10. Contributing
+11. License
 
-## Technologies Recommandées
-- **Langage** : Python
-- **Frameworks** : FastAPI pour l'API, React.js pour le frontend
-- **Base de données** : Elasticsearch pour le stockage des logs
-- **Outils de surveillance** : Prometheus et Loki pour l'observabilité
-- **Infrastructure** : Kubernetes pour l'orchestration des conteneurs, Terraform pour la gestion de l'infrastructure
+## Features
 
-## Installation
-1. Clonez le dépôt :
-   ```
-   git clone <url_du_dépôt>
-   cd siem-platform
-   ```
+- Flexible collectors for Syslog, Windows Event Logs, and cloud-native sources.
+- Unified parsing pipeline that normalizes events into a common JSON schema.
+- Contextual enrichment with GeoIP and threat intelligence providers.
+- Rule-based correlation alongside anomaly detection models.
+- Multi-channel alerting (email, Slack, Telegram, Discord).
+- REST & GraphQL APIs for integrations and automation.
+- Dashboards for security analysts (Grafana, Kibana, web UI stub).
+- Infrastructure-as-code (Docker, Helm, Terraform) for repeatable deployments.
 
-2. Installez les dépendances :
-   ```
-   pip install -r requirements.txt
-   ```
+## Architecture Overview
 
-3. Configurez les fichiers de configuration dans le dossier `configs`.
+The platform follows a pipeline architecture:
 
-4. Déployez le système en utilisant les scripts dans le dossier `scripts/ops`.
+1. Collectors (`src/collectors/`) pull telemetry from various sources.
+2. Parsers (`src/parsers/`) normalize events into structured JSON.
+3. Enrichers (`src/enrichment/`) add GeoIP and threat-intel context.
+4. Pipeline services (`src/pipeline/`) orchestrate ingestion, parsing, and indexing.
+5. Storage via Elasticsearch and optional cold storage adapters.
+6. Correlation engine (`src/correlation/`) applies detection rules and ML models.
+7. Alerting (`src/alerting/`) dispatches notifications to configured channels.
+8. APIs & UI expose insights through REST, GraphQL, and dashboards.
 
-## Utilisation
-- Démarrez les collecteurs pour commencer à collecter des logs.
-- Utilisez les API pour interagir avec le système et récupérer des données.
-- Consultez le tableau de bord pour visualiser les alertes et les événements.
+See `docs/ARCHITECTURE.md` for a detailed component breakdown.
 
-## Contribuer
-Les contributions sont les bienvenues ! Veuillez consulter le fichier `docs/CONTRIBUTING.md` pour plus d'informations sur la façon de contribuer au projet.
+## Prerequisites
+
+- Python 3.8+
+- Git
+- Docker Desktop (with Docker Compose) for local stacks
+- Optional: Kubernetes CLI + Helm, Terraform for advanced deployments
+
+Recommended host resources for local testing: 4 CPUs, 8 GB RAM, and 20 GB free disk space.
+
+## Quick Start
+
+```
+git clone https://github.com/your-org/SentriAI.git
+cd SentriAI
+python -m venv .venv        # or: py -m virtualenv .venv on Windows
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+Bring up the reference stack:
+
+```
+cd infra/docker
+docker-compose up -d
+docker-compose logs -f      # optional: monitor startup
+```
+
+Seed sample events (optional):
+
+```
+cd ../../scripts/python
+python run_e2e_local.py --events ../examples/sample_events/linux_syslog.log
+```
+
+Launch APIs and the demo dashboard:
+
+```
+uvicorn src.api.rest_api:app --reload --port 8000
+uvicorn src.api.graphql_api:app --reload --port 8001
+python src/ui/web_dashboard/frontend_stub.py
+```
+
+Open `http://localhost:8000/docs` for REST docs and `http://localhost:3000` for the dashboard stub.
+
+## Configuration
+
+All runtime settings live in `configs/`:
+
+- `collectors.yml` – source endpoints, credentials, scheduling.
+- `ingestion.yml` – parser/enricher toggles, batching, retry policies.
+- `logging.yml` – log levels, destinations.
+- `alerting.yml` – channels, templates, routing rules.
+
+Customize these files before deploying. Avoid committing secrets; use environment variables or secret managers in production.
+
+## Deployment Options
+
+Choose the path that matches your environment:
+
+### Local (Docker Compose)
+
+```
+cd infra/docker
+docker-compose up -d
+```
+
+This starts Elasticsearch, supporting services, and sample dashboards.
+
+### Kubernetes (Helm)
+
+```
+kubectl config use-context <cluster>
+cd infra/helm/siem-chart
+helm install sentriai .
+```
+
+Update `values.yml` to point to your own storage, secrets, and ingress.
+
+### Cloud (Terraform)
+
+```
+cd infra/terraform/cloud
+terraform init
+terraform apply
+```
+
+Provide cloud credentials and desired resources in the Terraform variables before applying.
+
+Refer to `docs/DEPLOYMENT_RUNBOOK.md` for detailed instructions and troubleshooting tips.
+
+## Project Structure
+
+```
+SentriAI/
+├── configs/            # YAML configuration templates
+├── docs/               # Architecture, runbooks, playbooks
+├── infra/              # Docker, Helm, Kubernetes, Terraform manifests
+├── scripts/            # Operational and data scripts
+├── src/                # Application source code (collectors, pipeline, APIs, ML)
+├── dashboards/         # Grafana/Kibana dashboard exports
+├── models/             # Trained models and training data
+├── tests/              # Unit, integration, and e2e tests
+└── examples/           # Sample events and alerts for testing
+```
+
+## Testing
+
+Activate your virtual environment, then run:
+
+```
+pytest
+```
+
+Use markers (`-m`) to scope to `unit`, `integration`, or `e2e` suites as needed.
+
+## Observability
+
+- Prometheus & Grafana: metrics collection and visualization (`observability/prometheus`, `dashboards/grafana`).
+- Loki: centralized log aggregation (`observability/loki`).
+- Kibana: search across ingested events (`dashboards/kibana`).
+
+These components are opinionated defaults—adapt them to your tooling stack.
+
+## Contributing
+
+We welcome contributions! Start with `docs/CONTRIBUTING.md` for coding standards, branching strategy, and the review process. Please open an issue before introducing large features and ensure new code includes tests.
 
 ## License
-Ce projet est sous licence MIT. Veuillez consulter le fichier `LICENSE` pour plus de détails.
+
+SentriAI is released under the MIT License. See `LICENSE` for the full text.
